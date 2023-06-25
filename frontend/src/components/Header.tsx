@@ -1,21 +1,22 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Image } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
+import OpenAILogo from "../assets/logo.svg";
 
 const Header: React.FC = () => {
     return (
         <Flex
             direction={"row"}
             justifyContent={"space-between"}
-            padding={"14px"}
+            padding={"18px"}
             alignItems={"center"}
+            mb={"40px"}
+            bgColor={"#fff"}
         >
-            <Text
-                fontSize={"30px"}
-                fontWeight={"700"}
-                color={"#2c2c2c"}
-            >
-                AImage
-            </Text>
+            <Image
+                src={OpenAILogo}
+                alt={"Open AI"}
+                w={"120px"}
+            />
 
             <Flex
                 direction={"row"}
@@ -31,7 +32,7 @@ const Header: React.FC = () => {
                     </NavLink>
                 </Text>
 
-                <Text
+                {/* <Text
                     fontSize={"18px"}
                     color={"#2c2c2c"}
                     fontWeight={"600"}
@@ -39,7 +40,7 @@ const Header: React.FC = () => {
                     <NavLink to={"/showcase"}>
                         Showcase
                     </NavLink>
-                </Text>
+                </Text> */}
             </Flex>
         </Flex>
     );
