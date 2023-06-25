@@ -4,6 +4,7 @@ import { OpenAI } from "../services/openai";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
 import * as types from "../types/data";
+import { useNotification } from "../hooks/useNotification";
 
 const MainPage: React.FC = () => {
 
@@ -14,7 +15,15 @@ const MainPage: React.FC = () => {
 
     const [imageUrl, setImageUrl] = useState("");
 
+    const { errorNotification, warningNotification } = useNotification();
+
     const generate = async () => {
+
+        if (!imageForm.prompt.trim().length) {
+            warningNotification("Prompt is required!");
+            return;
+        }
+        
         setImageForm({
             ...imageForm,
             isGenerating: true
@@ -23,11 +32,18 @@ const MainPage: React.FC = () => {
         setImageUrl("");
 
         try {
-            const url = await OpenAI.generateImage(imageForm.prompt)
-            setImageUrl(url)
+            await OpenAI.generateImage(imageForm.prompt)
+                .then((url) => {
+                    setImageUrl(url)
+                })
+                .catch((reason) => {
+                    errorNotification(reason.response.data)
+                });
+
 
         } catch (error) {
-            setImageUrl("")
+            setImageUrl("");
+            errorNotification("Something went wrong!")
 
         } finally {
             setImageForm({
@@ -39,7 +55,8 @@ const MainPage: React.FC = () => {
 
     return (
         <Box
-            backgroundColor={"#fefefe"}
+            backgroundColor={"#fafafa"}
+            minH={"100vh"}
         >
             <Header />
 
@@ -50,8 +67,10 @@ const MainPage: React.FC = () => {
             >
                 <Heading
                     mb={"20px"}
+                    color={"#000"}
+                    textAlign={"center"}
                 >
-                    Let's generate your image!
+                    Let's Create Your Image!
                 </Heading>
 
                 <Flex
@@ -60,12 +79,32 @@ const MainPage: React.FC = () => {
                 >
                     <Input
                         placeholder="Prompt"
+                        bgColor={"#fff"}
                         value={imageForm.prompt}
+                        color={"#000"}
+                        rounded={"none"}
+                        _hover={{
+                            bgColor: "#fff"
+                        }}
+                        _focus={{
+                            bgColor: "#fff"
+                        }}
+                        border={"solid 2px black"}
+                        focusBorderColor={"#000"}
+                        variant={"filled"}
                         onChange={(e) => setImageForm({...imageForm, prompt: e.target.value})}
                     />
 
                     <Button
                         onClick={generate}
+                        bgColor={"#000"}
+                        rounded={"none"}
+                        color={"#fff"}
+                        border={"solid 2px black"}
+                        _hover={{
+                            bgColor: "inherit",
+                            color: "#000"
+                        }}
                     >
                         Generate
                     </Button>

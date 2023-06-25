@@ -9,7 +9,6 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default class OpenAI {
-
     // generate image and return url on this image
     static generateImage = async (prompt) => {
         const response = await openai.createImage({
@@ -22,5 +21,4 @@ export default class OpenAI {
 
         return url;
     };
-
 };
