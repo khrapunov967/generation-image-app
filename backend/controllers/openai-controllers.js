@@ -1,6 +1,7 @@
 import OpenAI from "../services/openai.js";
 import Image from "../models/image.js";
 
+// generate image from prompt and save it in mongodb database
 export const generateImage = async (req, res) => {
     const { prompt } = req.body;
 

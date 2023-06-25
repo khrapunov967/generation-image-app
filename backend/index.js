@@ -19,7 +19,7 @@ const connectToMongoDB = async () => {
     } catch (error) {
         process.exit(1)
     }
-}
+};
 
 app.listen(PORT, (err) => {
     if (err) {
